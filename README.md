@@ -99,4 +99,8 @@ Host: chp-dashboard.geodata.gov.hk
 
 全部接種率餅圖示例
 
-![](pic/pie.jpg)
+![](pic/pie0.jpg)
+
+兒童接種率餅圖示例
+
+![](pic/pie1.jpg)

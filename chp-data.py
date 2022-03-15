@@ -66,7 +66,7 @@ doseDataFrame.columns = ['ifDose1', 'ifDose2', 'ifDose3', 'number']
 #print("\nThe secode dose\nReceived Dose2: ", rDoseDict['secondDoseTotal'], "Only received 1 dose: ", dose1Num, "sum(firstDoseTotal): ", rDoseDict['secondDoseTotal'] + dose1Num)
 #print('totalNum: ', totalNum)
 
-# nested pie chart
+# nested pie chart for dose ratio
 outer = doseDataFrame.groupby(['ifDose1']).sum()
 middle = doseDataFrame.groupby(['ifDose1', 'ifDose2']).sum()
 inner = doseDataFrame.groupby(['ifDose1', 'ifDose2', 'ifDose3']).sum()
@@ -107,3 +107,27 @@ ax.pie(inner.values.flatten(), radius=sizeInner,
 
 ax.set(aspect="equal", title=u'疫苗接種比例圖')
 plt.savefig('./res/dose-pie-chart' + str(int(timeStamp)) + '.jpg')
+
+#children age from 3 to 11
+childrenFirstDosePct = float(rDoseDict['age3to11FirstDosePercent'].strip('%')) # received 1 dose
+childrenSecondDosePct = float(rDoseDict['age3to11SecondDosePercent'].strip('%')) # received 2 doses
+children1DosePct = childrenFirstDosePct - childrenSecondDosePct # only received 1 dose
+childrenUndosePct = 100 - childrenFirstDosePct - childrenSecondDosePct
+print(childrenFirstDosePct, childrenSecondDosePct, children1DosePct, childrenUndosePct)
+
+labelsChildren = [u'徑接種第一針兒童', u'接種二針兒童', u'未接種兒童']
+colorChildren =  ['#B7FF63', '#32E89C', '#FF515F']
+
+fracsChildren = [children1DosePct, childrenSecondDosePct, childrenUndosePct]
+childrenExplode = (0, 0, 0.2)
+
+fig1, ax1 = plt.subplots()
+ax1.pie(fracsChildren,
+              labels = labelsChildren,
+              colors = colorChildren,
+              autopct = '%1.1f%%',
+              shadow = True,
+              startangle = 90)
+
+ax1.set(aspect="equal", title=u'兒童疫苗接種比例圖')
+plt.savefig('./res/children-dose-pie-chart' + str(int(timeStamp)) + '.jpg')
