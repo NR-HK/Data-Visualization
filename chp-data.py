@@ -7,6 +7,7 @@ import json
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
+import matplotlib.patches as mpatches
 
 plt.rcParams['font.sans-serif']=['SimHei'] #用来正常显示中文标签
 plt.rcParams['axes.unicode_minus']=False #用来正常显示负号
@@ -73,7 +74,7 @@ inner = doseDataFrame.groupby(['ifDose1', 'ifDose2', 'ifDose3']).sum()
 outerLabels = outer.index.get_level_values(0)
 middleLabels = middle.index.get_level_values(1)
 innerLabels = inner.index.get_level_values(2) # 3 levels
-fig, ax = plt.subplots(figsize=(24,12))
+fig, ax = plt.subplots(figsize=(20,12)) #24, 12
 size = 0.1
 sizeInner = 0.3
 sizeMiddle = 0.6
@@ -83,10 +84,12 @@ colorInner = ['#A1C7E0', '#0099DD', '#00CCBF', '#FF5F5D']
 
 ax.pie(outer.values.flatten(), radius=1,
        labels = outerLabels,
-       labeldistance = 1.2,
+       labeldistance = 1.1, #1.2
        colors = colorOuter,
        autopct = '%1.1f%%',
-       pctdistance = 1.1,
+       pctdistance = 0.95, #1.1
+       startangle = 90,
+       textprops={'fontsize': 12},
        wedgeprops = dict(width = size, edgecolor = 'w'))
 
 ax.pie(middle.values.flatten(), radius=sizeMiddle,
@@ -95,17 +98,36 @@ ax.pie(middle.values.flatten(), radius=sizeMiddle,
        colors = colorMiddle,
        autopct = '%1.1f%%',
        pctdistance = 0.93,
+       startangle = 90,
+       textprops={'fontsize': 12},
        wedgeprops = dict(width = size, edgecolor = 'w'))
 
 ax.pie(inner.values.flatten(), radius=sizeInner,
        labels = innerLabels,
-       labeldistance = 0.95,
+       labeldistance = 0.98,
        colors = colorInner,
        autopct = '%1.1f%%',
-       pctdistance = 0.4,
+       pctdistance = 0.8,
+       startangle = 90,
+       textprops={'fontsize': 12},
        wedgeprops = dict(width = size, edgecolor = 'w'))
 
-ax.set(aspect="equal", title=u'疫苗接種比例圖')
+# legend
+redPatch = mpatches.Patch(color = '#FF5F5D', label = u'未接種')
+greenPatch0 = mpatches.Patch(color = '#3F7C85', label = u'已接種第一針')
+greenPatch1 = mpatches.Patch(color = '#72F2EB', label = u'已接種兩針')
+greenPatch2 = mpatches.Patch(color = '#00CCBF', label = u'已接種第一針，但未接種第二針')
+greyPatch = mpatches.Patch(color = '#A1C7E0', label = u'已接種全部三針')
+bluePatch = mpatches.Patch(color = '#0099DD', label = u'已接種兩針，但未接種第三針')
+ax.legend(handles = [redPatch, greenPatch0, greenPatch1, greenPatch2, greyPatch, bluePatch],
+          title = u'接種率說明',
+          bbox_to_anchor = (1, 1),
+          bbox_transform = fig.transFigure,
+          loc = 'upper right')
+
+#ax.set(aspect="equal", title=u'疫苗接種比例圖')
+ax.set_title(u'疫苗接種比例圖', fontsize = 18)
+ax.set(aspect = "equal")
 plt.savefig('./res/dose-pie-chart' + str(int(timeStamp)) + '.jpg')
 
 #children age from 3 to 11
