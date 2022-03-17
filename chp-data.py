@@ -115,11 +115,11 @@ ax.pie(inner.values.flatten(), radius=sizeInner,
 # legend
 redPatch = mpatches.Patch(color = '#FF5F5D', label = u'未接種')
 greenPatch0 = mpatches.Patch(color = '#3F7C85', label = u'已接種第一針')
-greenPatch1 = mpatches.Patch(color = '#72F2EB', label = u'已接種兩針')
-greenPatch2 = mpatches.Patch(color = '#00CCBF', label = u'已接種第一針，但未接種第二針')
+greenPatch1 = mpatches.Patch(color = '#72F2EB', label = u'已接種第一、第二針')
+greenPatch2 = mpatches.Patch(color = '#00CCBF', label = u'已接種第一針，未接種第二針')
 greyPatch = mpatches.Patch(color = '#A1C7E0', label = u'已接種全部三針')
-bluePatch = mpatches.Patch(color = '#0099DD', label = u'已接種兩針，但未接種第三針')
-ax.legend(handles = [redPatch, greenPatch0, greenPatch1, greenPatch2, greyPatch, bluePatch],
+bluePatch = mpatches.Patch(color = '#0099DD', label = u'已接種兩針，未接種第三針')
+ax.legend(handles = [redPatch, greenPatch0, greenPatch2, greenPatch1, bluePatch, greyPatch],
           title = u'接種率說明',
           bbox_to_anchor = (1, 1),
           bbox_transform = fig.transFigure,
