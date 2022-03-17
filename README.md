@@ -104,3 +104,45 @@ Host: chp-dashboard.geodata.gov.hk
 兒童接種率餅圖示例
 
 ![](pic/pie1.jpg)
+
+## HA 服務需求高峰期重點數據
+
+數據來源: https://data.gov.hk/tc-data/dataset/hospital-hadata-key-statistics-during-surge
+
+### API
+
+#### Time Stamp
+
+GET /v1/historical-archive/list-file-versions?url=https://www.ha.org.hk/opendata/pas_report/Daily_Services_Statistics/Daily_Services_Statistics_TC.json&start=20220315&end=20220316 HTTP/1.1
+Host: api.data.gov.hk
+
+
+#### Statistics
+
+https://api.data.gov.hk/v1/historical-archive/get-file?url=https://www.ha.org.hk/opendata/pas_report/Daily_Services_Statistics/Daily_Services_Statistics_EN.json&time=20220301-1107
+
+### Use
+
+```bash
+$ python3 AH-statistics.py -h
+Get statistics from HA. Data format: JSON.
+param:
+ -h	help.
+ -l [TC|SC|EN]	language. TC: traditional Chinese. SC: simplified Chinese. EN: English. Default: EN.
+ -s [YYYYMMDD]	start date.
+ -e [YYYYMMDD]	end date.
+```
+
+**NOTICE: In mainland, vpn is needed**
+
+部分運行結果
+
+```
+$python3 AH-statistics.py -s 20220311 -e 20220315
+lang: EN
+startDate: 20220311
+endDate: 20220315
+<class 'list'>
+Downloading json file of timestamp  20220311-1115
+Downloading json file of timestamp  20220312-1108
+```
